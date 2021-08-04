@@ -9,7 +9,7 @@ public class StaticSingleton {
 
     }
 
-    public Singleton getInstance(){
+    public static Singleton getInstance(){
         return SingletonFactory.singleton;
 
     }
