@@ -23,6 +23,8 @@ public class Test {
         Method writeMethod = descriptor.getWriteMethod();
         Method readMethod = descriptor.getReadMethod();
         writeMethod.invoke(person, "new new new");
+
+
         Object invoke = readMethod.invoke(person);
         System.out.println();
         System.out.println("result read methods:---------" + invoke);
