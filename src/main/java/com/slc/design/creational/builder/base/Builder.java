@@ -6,6 +6,7 @@ public interface Builder {
     void part3(String part3);
     Production build();
 }
+
 class ConcreteBuilder implements Builder{
 
     Production production=new Production();
