@@ -1,5 +1,9 @@
 package com.slc.design.creational.builder.base;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 public class Director {
 
     private Builder builder;
