@@ -3,6 +3,9 @@ package com.slc.design.structural.flyweight;
 
 import lombok.AllArgsConstructor;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public interface FlyWeight {
 
     void operation();
@@ -18,8 +21,19 @@ class ConcreteFlyWeight implements FlyWeight {
     }
 }
 
-class FlyWeightFactory{
+class FlyWeightFactory {
+
+    private static Map<String, ConcreteFlyWeight> map = new HashMap<>();
 
 
+    public static ConcreteFlyWeight getFlyWeight(String name) {
+        if (map.get(name) != null) {
+            return map.get(name);
+        } else {
+            ConcreteFlyWeight concreteFlyWeight = new ConcreteFlyWeight(name);
+            map.put(name, concreteFlyWeight);
+            return concreteFlyWeight;
+        }
 
+    }
 }
