@@ -79,6 +79,7 @@ class Test {
         context.add(b, 8);
         context.add(c, 2);
 
-        System.out.println(new MinusOperation(new PlusOperation(a, b), c).interpreter(context));
+        int result = new MinusOperation(new PlusOperation(a, b), c).interpreter(context);
+        System.out.println(result);
     }
 }
