@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Setter;
 
 /**
+ *
+ * 中介者模式
  * @author sulin
  */
 @AllArgsConstructor

@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
+ *
+ * 备忘录模式
  * @author sulin
  */
 @Data

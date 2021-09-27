@@ -4,6 +4,9 @@ package com.slc.design.behavioral.interpreter;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * 解释器模式
+ */
 public interface Expression {
     int interpreter(Context context);
 }
