@@ -1,6 +1,9 @@
 package com.slc.design.structural.decorator;
 
 
+/**
+ * @author sulin
+ */
 public interface Component {
 
     Integer operate();

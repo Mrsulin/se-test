@@ -24,16 +24,20 @@ class Person implements Man {
         return 8;
     }
 }
-class PersonInvocationHandler<T> implements InvocationHandler{
-    private  T t;
-    public PersonInvocationHandler(T t){
-        this.t=t;
+class PersonInvocationHandler implements InvocationHandler{
+
+    Man man;
+
+    public PersonInvocationHandler(Man man) {
+        this.man = man;
     }
+
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        System.out.println("drink milk");
         method.setAccessible(true);
-        Object invoke = method.invoke(t, args);
+        System.out.println("before ....");
+        Object invoke = method.invoke(man, args);
+        System.out.println("after ....");
         return invoke;
     }
 }
@@ -42,9 +46,8 @@ class Client{
 
     public static void main(String[] args) {
         Person zs = new Person("zs");
-        PersonInvocationHandler<Person> personInvocationHandler = new PersonInvocationHandler<>(zs);
+        PersonInvocationHandler personInvocationHandler = new PersonInvocationHandler(zs);
         Man o = (Man) Proxy.newProxyInstance(Person.class.getClassLoader(), new Class<?>[]{Man.class}, personInvocationHandler);
-        Person p= (Person) o;
         o.sleep();
     }
 }
