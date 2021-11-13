@@ -10,7 +10,7 @@ import java.util.Arrays;
  *
  * @author slc
  */
-public class Test {
+public class Paper {
 
     /**
      * 一、获取ClassLoader
@@ -46,7 +46,7 @@ public class Test {
         System.out.println(bootStrapClassLoader);
 
         //用户自定义类加载器: Launcher$AppClassLoader@18b4aac2
-        ClassLoader classLoader = Test.class.getClassLoader();
+        ClassLoader classLoader = Paper.class.getClassLoader();
         System.out.println(classLoader);
 
         //引导类加载器: null 加载核心类库

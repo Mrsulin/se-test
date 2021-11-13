@@ -1,6 +1,6 @@
 package com.slc.reflect.base;
 
-public class Test {
+public class Paper {
 
     @org.junit.Test
     public void test(){
