@@ -1,5 +1,9 @@
 package com.slc.design.behavioral.observable;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,21 +43,11 @@ class ConcreteObservable implements Observable {
 }
 
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 class Observer {
-    public Observer(String name) {
-        this.name = name;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     private String name;
-
     public void receiveMsg(String msg) {
         System.out.println(this.name + "接受到消息: " + msg);
     }
