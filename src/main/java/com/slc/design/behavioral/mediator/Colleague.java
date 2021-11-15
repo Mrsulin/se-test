@@ -19,6 +19,7 @@ class ConcreteColleague1 extends Colleague {
 
     public ConcreteColleague1(Mediator mediator) {
         super(mediator);
+        mediator.registerColleague(this);
     }
 
     @Override
@@ -37,6 +38,7 @@ class ConcreteColleague2 extends Colleague {
 
     public ConcreteColleague2(Mediator mediator) {
         super(mediator);
+        mediator.registerColleague(this);
     }
 
 
@@ -53,14 +55,22 @@ class ConcreteColleague2 extends Colleague {
 
 interface Mediator {
     void send(String message, Colleague colleague);
+    void registerColleague(Colleague colleague);
 }
 
 @Setter
 class ConcreteMediator implements Mediator {
     ConcreteColleague1 concreteColleague1;
     ConcreteColleague2 concreteColleague2;
-
-
+    @Override
+    public void registerColleague(Colleague colleague){
+        if(colleague instanceof  ConcreteColleague1){
+            concreteColleague1= (ConcreteColleague1) colleague;
+        }
+        if(colleague instanceof  ConcreteColleague2){
+            concreteColleague2= (ConcreteColleague2) colleague;
+        }
+    }
     @Override
     public void send(String message, Colleague colleague) {
         if (colleague == concreteColleague1) {
@@ -78,9 +88,6 @@ class Test {
         ConcreteMediator mediator = new ConcreteMediator();
         ConcreteColleague1 c1 = new ConcreteColleague1(mediator);
         ConcreteColleague2 c2 = new ConcreteColleague2(mediator);
-
-        mediator.setConcreteColleague1(c1);
-        mediator.setConcreteColleague2(c2);
         c1.sendMsg("asd");
         c2.sendMsg("nini");
     }
