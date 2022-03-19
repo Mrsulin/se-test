@@ -1,5 +1,7 @@
 package com.slc.design.behavioral.strategy;
 
+import lombok.Data;
+
 public interface Strategy {
     public void operate();
 }
@@ -25,6 +27,7 @@ class StrategyC implements Strategy{
     }
 }
 
+@Data
 class Context {
     Strategy strategy;
     Context(Strategy strategy){
@@ -40,11 +43,12 @@ class Client{
 
     public static void main(String[] args) {
         Context contextA = new Context(new StrategyA());
-        Context contextB = new Context(new StrategyB());
-        Context contextC = new Context(new StrategyC());
-
         contextA.operate();
-        contextB.operate();
-        contextC.operate();
+
+        contextA.setStrategy(new StrategyB());
+        contextA.operate();
+
+        contextA.setStrategy(new StrategyC());
+        contextA.operate();
     }
 }

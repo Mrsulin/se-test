@@ -1,8 +1,6 @@
 package com.slc.design.structural.composite;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,17 +21,14 @@ public abstract class Component {
 
     public abstract void operate();
 }
-@ToString
+@AllArgsConstructor
 class Leaf extends Component {
-
+    private String name;
     @Override
     public void operate() {
         System.out.println("调用Leaf operate 方法");
     }
-    public Leaf(String name) {
-        this.name = name;
-    }
-    private String name;
+
 
 }
 @ToString(exclude = "name")

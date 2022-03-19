@@ -14,7 +14,7 @@ public class CmdTest {
             arr[0]="-ano";
             Process ipconfig = Runtime.getRuntime().exec("netstat",arr);
             InputStream inputStream = ipconfig.getInputStream();
-
+//
             BufferedReader br = new BufferedReader(new InputStreamReader(inputStream, Charset.forName("GBK")));
             String read;
             while((read=br.readLine())!=null){

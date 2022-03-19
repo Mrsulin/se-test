@@ -10,7 +10,7 @@ import java.lang.reflect.Method;
 /**
  * @author slc
  */
-public class Test {
+public class Paper {
 
 
     /**

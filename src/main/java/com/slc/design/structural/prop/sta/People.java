@@ -1,4 +1,4 @@
-package com.slc.design.structural.prop;
+package com.slc.design.structural.prop.sta;
 
 /**
  * @author sulin

@@ -10,10 +10,10 @@ public class Purchase {
 }
 
 abstract class Approver {
-    protected Approver approver;
+    protected Approver nextApprover;
 
-    public void setApprover(Approver approver) {
-        this.approver = approver;
+    public void setApprover(Approver nextApprover) {
+        this.nextApprover = nextApprover;
     }
 
     abstract void handlePurchase(Purchase purchase);
@@ -24,7 +24,7 @@ class Approver1 extends Approver {
     @Override
     void handlePurchase(Purchase purchase) {
         System.out.println("Approver1 审批完毕");
-        approver.handlePurchase(purchase);
+        nextApprover.handlePurchase(purchase);
     }
 }
 
@@ -34,7 +34,7 @@ class Approver2 extends Approver {
     @Override
     void handlePurchase(Purchase purchase) {
         System.out.println("Approver2 审批完毕");
-        approver.handlePurchase(purchase);
+        nextApprover.handlePurchase(purchase);
     }
 }
 
