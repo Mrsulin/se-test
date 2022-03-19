@@ -39,4 +39,43 @@
         </dependency>
 
     </dependencies>
+
+    <build>
+        <resources>
+            <resource>
+                <!--输出目录，默认为/target/classes-->
+                <targetPath>${project.build.outputDirectory}</targetPath>
+                <!-- 设定主资源目录  -->
+                <directory>src/main/java</directory>
+
+                <!-- 只处理如下配置中包含的资源类型 -->
+                <includes>
+                    <include>**/*.xml</include>
+                </includes>
+
+                <!-- 不处理如下配置中包含的资源类型（剔除下如下配置中包含的资源类型）-->
+                <excludes>
+                    <exclude>**/*.yaml</exclude>
+                </excludes>
+
+                <!-- 是否对主资源目录开启资源过滤 -->
+                <filtering>true</filtering>
+            </resource>
+            <resource>
+                <!--输出目录，默认为/target/classes-->
+                <!-- <targetPath>${project.build.outputDirectory}</targetPath>-->
+                <!-- 设定主资源目录  -->
+                <directory>src/main/resources</directory>
+
+                <!-- 只处理如下配置中包含的资源类型 -->
+                <includes>
+                    <include>*</include>
+                </includes>
+
+                <!-- 是否对主资源目录开启资源过滤 -->
+                <filtering>false</filtering>
+            </resource>
+
+        </resources>
+    </build>
 </project>
