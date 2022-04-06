@@ -15,7 +15,7 @@ public class ReentrantLockTest {
         Lock lock = new ReentrantLock(true);
         List<MyThread> threadList = new ArrayList<>();
         for (int i = 0; i <= 5; i++) {
-            threadList.add(new MyThread(lock, "业务" + i));
+            threadList.add(new MyThread("线程" + i + "测试", lock));
         }
         threadList.forEach(Thread::start);
         TimeUnit.SECONDS.sleep(2L);
@@ -25,26 +25,23 @@ public class ReentrantLockTest {
 
     public static class MyThread extends Thread {
         final Lock lock;
-        final String name;
 
-
-        public MyThread(Lock lock, String name) {
+        public MyThread(String name, Lock lock) {
+            super(name);
             this.lock = lock;
-            this.name = name;
         }
+
 
         @Override
         public void run() {
-            currentThread().setName(name);
             try {
-                System.out.println("            " + name + " 中断标记：：：" + Thread.currentThread().isInterrupted());
                 lock.lock();
-                System.out.println("            " + name + ": 获得锁 ");
+                System.out.println("            " + currentThread().getName() + ": 获得锁 ");
                 for (int i = 3; i >= 1; i--) {
-                    System.out.println("            " + name + ": sleep " + i);
+                    System.out.println("            " + currentThread().getName() + ": sleep " + i);
                     TimeUnit.SECONDS.sleep(1);
                 }
-                System.out.println("            " + name + ": release ");
+                System.out.println("            " + currentThread().getName() + ": release ");
 //                TimeUnit.SECONDS.sleep(3);
 //                TimeUnit.SECONDS.sleep(Integer.MAX_VALUE);
             } catch (Exception e) {
@@ -52,7 +49,6 @@ public class ReentrantLockTest {
             } finally {
                 if (((ReentrantLock) lock).isHeldByCurrentThread()) {
                     lock.unlock();
-
                 }
             }
         }

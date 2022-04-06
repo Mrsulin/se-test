@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-public class ReentrantLockVolatileGcTest2 {
+public class ReentrantLockVolatileGcTestForMemoryLeak {
     static List<ReentrantLockVolatileGcTest.Person> personList = new ArrayList<>();
 
     static {
