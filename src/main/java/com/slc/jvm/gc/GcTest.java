@@ -7,6 +7,10 @@ import lombok.NoArgsConstructor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.LockSupport;
 
+/**
+ * gc日志查看参数（基于jdk1.8）
+ * -verbose:gc -XX:+PrintGC -XX:+PrintGCDetails
+ */
 public class GcTest {
 
     public static void main(String[] args) throws InterruptedException {
@@ -22,7 +26,6 @@ public class GcTest {
 //        System.out.println("freeMemory:::"+(Runtime.getRuntime().freeMemory())/1024/1024);
 //        System.out.println("maxMemory:::"+(Runtime.getRuntime().maxMemory())/1024/1024);
 //        System.out.println("totalMemory:::"+(Runtime.getRuntime().totalMemory())/1024/1024);
-
         LockSupport.park();
     }
 

@@ -1,5 +1,7 @@
 package com.slc.thread.aqs;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.LockSupport;
@@ -12,7 +14,9 @@ public class SemaphoreTest {
         createThreeThread();
         TimeUnit.SECONDS.sleep(2);
         createOtherThread();
-
+//        semaphore.release();
+        semaphore.release();
+        System.out.println();
         LockSupport.park();
     }
 
@@ -36,6 +40,7 @@ public class SemaphoreTest {
     }
 
     private static void createOtherThread() {
+        List<Thread> list=new ArrayList<>();
         for (int i = 4; i <= 5; i++) {
             Thread thread = new Thread(() -> {
                 try {
@@ -49,7 +54,16 @@ public class SemaphoreTest {
                 System.out.println(Thread.currentThread().getName() + " 释放");
                 semaphore.release();
             }, i + " 备用线程");
-            thread.start();
+            list.add(thread);
+//            thread.start();
+        }
+        list.forEach(Thread::start);
+
+        try {
+            TimeUnit.SECONDS.sleep(4);
+            list.get(1).interrupt();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 

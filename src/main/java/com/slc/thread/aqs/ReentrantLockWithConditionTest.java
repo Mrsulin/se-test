@@ -1,9 +1,5 @@
 package com.slc.thread.aqs;
 
-import lombok.SneakyThrows;
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
@@ -14,36 +10,35 @@ public class ReentrantLockWithConditionTest {
     public static void main(String[] args) throws InterruptedException {
         Lock lock = new ReentrantLock();
         Condition condition = lock.newCondition();
-//        Condition condition2 = lock.newCondition();
-//        for (int i = 1; i < 5; i++) {
-//            Thread thread = new Thread(() -> {
-//                try {
-//                    condition.await();
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-//            }, "no lock thread "+i);
-//            thread.start();
-//        }
-//        TimeUnit.SECONDS.sleep(5L);
-
-        System.out.println("----------------");
-        System.out.println("----------------");
-        System.out.println("----------------");
-//        LockSupport.park();
-        for (int i = 1; i <= 2; i++) {
-            new MyThread(lock, condition, " condition 1st 业务" + i).start();
+        for (int i = 1; i <= 4; i++) {
+            new MyThread(lock, condition, " condition-[" + i + "]-业务").start();
+            TimeUnit.MICROSECONDS.sleep(500L);
         }
-
-//        for (int i = 3; i <= 5; i++) {
-//            new MyThread(lock, condition2, " condition 2nd 业务" + i).start();
-//        }
-
-        lock.lock();
-   //     condition.signalAll();
-//        condition2.signalAll();
-        lock.unlock();
+        new Thread(() -> {
+            lock.lock();
+            try {
+              TimeUnit.SECONDS.sleep(Integer.MAX_VALUE);
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                lock.unlock();
+            }
+        }).start();
+        TimeUnit.SECONDS.sleep(1L);
+        notify(lock, condition);
         LockSupport.park();
+
+    }
+
+    private static void notify(Lock lock, Condition condition) {
+        lock.lock();
+        try {
+            condition.signal();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            lock.unlock();
+        }
     }
 
     public static class MyThread extends Thread {

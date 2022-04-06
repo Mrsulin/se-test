@@ -3,7 +3,9 @@ package com.slc.thread.aqs;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.LockSupport;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.stream.IntStream;
 
@@ -25,6 +27,7 @@ public class ReentrantReadWriteLockTest {
         }
 
         public char[] read(boolean flag) throws InterruptedException {
+            ReentrantLock lock=new ReentrantLock();
             readLock.lock();
             char[] buffer = new char[length];
             try {

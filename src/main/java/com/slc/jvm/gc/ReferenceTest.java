@@ -3,7 +3,7 @@ package com.slc.jvm.gc;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-public class ReferenceTest {
+public class  ReferenceTest {
     @NoArgsConstructor
     public static class Node {
         public String name;
