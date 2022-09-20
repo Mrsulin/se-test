@@ -1,81 +1,94 @@
 package com.slc.thread;
 
-import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicReference;
 
+/**
+ * @author sulin
+ */
 public class Test {
-    static ThreadFactory factory = r -> {
-        //创建一个线程
-        Thread t = new Thread(r);
-        //给创建的线程设置UncaughtExceptionHandler对象 里面实现异常的默认逻辑
-        t.setName("ansidnlaisndinlaisd");
-        return t;
-    };
-    static ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(1, 1,
-            0L, TimeUnit.MILLISECONDS,
-            new SynchronousQueue<>(), factory);
-    static CountDownLatch latch1 = new CountDownLatch(1);
-    static CountDownLatch latch2 = new CountDownLatch(1);
+    static class HasSelfPrivateNum {
+        private int num = 0;
 
-    public static void main(String[] args) throws InterruptedException {
-        print();
+        public  void add(String name) {
+            try {
+                if (name.equals("a")) {
+                    num = 100;
+                    System.out.println("a set over");
+                    Thread.sleep(2000);
+                } else {
+                    num = 200;
+                    System.out.println("b set over");
+                }
+                System.out.println(name + "  num=" + num);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    //线程 A add a
+    static class ThreadA extends Thread {
+        private HasSelfPrivateNum numRef;
 
-        Thread newTask = new NewTask("T1", latch1);
-        Future<?> submit = threadPoolExecutor.submit(newTask);
-        new Thread(()->{
-            boolean flag = true;
-            while (flag) {
-                try {
-                    threadPoolExecutor.submit(new NewTask("otherA", latch2));
-                    flag = false;
-                } catch (RejectedExecutionException e) {
-                    e.printStackTrace();
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException interruptedException) {
-                        interruptedException.printStackTrace();
-                    }
-                }
-            }
-        }).start();
-        new Thread(()->{
-            boolean flag = true;
-            while (flag) {
-                try {
-                    threadPoolExecutor.submit(new NewTask("otherB", latch2));
-                    flag = false;
-                } catch (RejectedExecutionException e) {
-                    e.printStackTrace();
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException interruptedException) {
-                        interruptedException.printStackTrace();
-                    }
-                }
-            }
-        }).start();
-        Thread.sleep(3000);
-        threadPoolExecutor.setCorePoolSize(2);
-        threadPoolExecutor.setMaximumPoolSize(1);
-        Thread.sleep(3000);
-        threadPoolExecutor.setCorePoolSize(3);
-        threadPoolExecutor.setMaximumPoolSize(1);
-        Thread.sleep(10000);
-        threadPoolExecutor.setCorePoolSize(2);
-        threadPoolExecutor.setMaximumPoolSize(1);
+        public ThreadA(HasSelfPrivateNum numRef) {
+            super();
+            this.numRef = numRef;
+        }
+
+        @Override
+        public void run() {
+            super.run();
+            numRef.add("a");
+        }
+    }
+    //线程 B add b
+    static class ThreadB extends Thread {
+        private HasSelfPrivateNum numRef;
+
+        public ThreadB(HasSelfPrivateNum numRef) {
+            super();
+            this.numRef = numRef;
+        }
+
+        @Override
+        public void run() {
+            super.run();
+            numRef.add("b");
+        }
     }
 
-    private static void print() {
-        new Thread(() -> {
-            while (true) {
-                try {
-                    System.out.println("getActiveCount---" + threadPoolExecutor.getActiveCount() + "         getCompletedTaskCount---" + threadPoolExecutor.getCompletedTaskCount());
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }).start();
+    public static void main(String[] args) {
+        HasSelfPrivateNum numRef=new HasSelfPrivateNum();
+        ThreadA aThread=new ThreadA(numRef);
+        aThread.start();
+
+        ThreadB bThread=new ThreadB(numRef);
+        bThread.start();
+        AtomicReference<HasSelfPrivateNum>atomicReference=new AtomicReference<>();
+        atomicReference.set(numRef);
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 }
